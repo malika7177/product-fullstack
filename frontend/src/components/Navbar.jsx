@@ -1,38 +1,47 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
-import { IoMoon } from 'react-icons/io5';
-import { LuSun } from 'react-icons/lu';
-import { FaRegPlusSquare } from "react-icons/fa";
-import './navbar.css'
+import { Button, Container, Flex, HStack, Text, useColorMode } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
+
+import { PlusSquareIcon } from "@chakra-ui/icons";
+import { IoMoon } from "react-icons/io5";
+import { LuSun } from "react-icons/lu";
 
 const Navbar = () => {
-  const [colorMode, setColorMode] = useState('light');
+	const { colorMode, toggleColorMode } = useColorMode();
 
-  const toggleColorMode = () => {
-    setColorMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
-    document.body.classList.toggle('dark-mode', colorMode === 'light');
-  };
+	return (
+		<Container maxW={"1140px"} px={4}>
+			<Flex
+				h={16}
+				alignItems={"center"}
+				justifyContent={"space-between"}
+				flexDir={{
+					base: "column",
+					sm: "row",
+				}}
+			>
+				<Text
+					fontSize={{ base: "22", sm: "28" }}
+					fontWeight={"bold"}
+					textTransform={"uppercase"}
+					textAlign={"center"}
+					bgGradient={"linear(to-r, cyan.400, blue.500)"}
+					bgClip={"text"}
+				>
+					<Link to={"/"}>Product Store 🛒</Link>
+				</Text>
 
-  return (
-    <div className={`navbar ${colorMode}`}>
-      <div className="container">
-        <h1 className="logo">
-          <Link to="/">Product Store 🛒</Link>
-        </h1>
-        <div className="actions">
-          <Link to="/create">
-            <button className="create-button">
-              <FaRegPlusSquare size={25} />
-            </button>
-          </Link>
-          <button onClick={toggleColorMode} className="toggle-button">
-            {colorMode === 'light' ? <IoMoon /> : <LuSun size={25} />}
-          </button>
-        </div>
-      </div>
-    </div>
-  );
+				<HStack spacing={2} alignItems={"center"}>
+					<Link to={"/create"}>
+						<Button>
+							<PlusSquareIcon fontSize={20} />
+						</Button>
+					</Link>
+					<Button onClick={toggleColorMode}>
+						{colorMode === "light" ? <IoMoon /> : <LuSun size='20' />}
+					</Button>
+				</HStack>
+			</Flex>
+		</Container>
+	);
 };
-
 export default Navbar;
